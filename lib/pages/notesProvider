@@ -1,0 +1,25 @@
+// lib/providers/notes_provider.dart
+import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+import '../models/note.dart';
+
+class NotesProvider extends ChangeNotifier {
+  final Box<Note> _notesBox = Hive.box<Note>('notes');
+
+  List<Note> get notes => _notesBox.values.toList();
+
+  void addNote(Note note) {
+    _notesBox.add(note);
+    notifyListeners();
+  }
+
+  void deleteNoteAt(int index) {
+    _notesBox.deleteAt(index);
+    notifyListeners();
+  }
+
+  void updateNoteAt(int index, Note updatedNote) {
+    _notesBox.putAt(index, updatedNote);
+    notifyListeners();
+  }
+}
